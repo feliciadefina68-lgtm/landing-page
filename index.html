@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cireng Nyoy — Cireng Isi Renyah & Gurih</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET & BASE ===== */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Poppins',sans-serif;
+    color:#2b1d14;
+    background:#fff8ef;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block}
+  a{text-decoration:none;color:inherit}
+  ul{list-style:none}
+  :root{
+    --primary:#d62828;
+    --secondary:#f77f00;
+    --accent:#fcbf49;
+    --cream:#fff8ef;
+    --dark:#2b1d14;
+    --gray:#6b5b4f;
+    --shadow:0 10px 30px rgba(43,29,20,.12);
+  }
+  .container{width:min(1200px,92%);margin-inline:auto}
+  section{padding:90px 0}
+  .section-title{
+    text-align:center;
+    font-size:clamp(1.8rem,3vw,2.5rem);
+    font-weight:700;
+    margin-bottom:12px;
+    color:var(--dark);
+  }
+  .section-sub{
+    text-align:center;
+    color:var(--gray);
+    max-width:600px;
+    margin:0 auto 50px;
+  }
+
+  /* ===== NAVBAR ===== */
+  .navbar{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(255,248,239,.85);
+    backdrop-filter:blur(12px);
+    transition:all .3s ease;
+    border-bottom:1px solid transparent;
+  }
+  .navbar.scrolled{
+    background:rgba(255,248,239,.97);
+    box-shadow:0 4px 20px rgba(0,0,0,.06);
+    border-bottom-color:rgba(214,40,40,.1);
+  }
+  .nav-wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    font-size:1.5rem;font-weight:800;
+    display:flex;align-items:center;gap:8px;
+  }
+  .logo span:first-child{color:var(--primary)}
+  .logo span:last-child{color:var(--secondary)}
+  .nav-links{display:flex;gap:32px}
+  .nav-links a{
+    font-weight:500;position:relative;
+    transition:color .2s;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:-6px;
+    width:0;height:2px;background:var(--primary);
+    transition:width .3s;
+  }
+  .nav-links a:hover{color:var(--primary)}
+  .nav-links a:hover::after{width:100%}
+  .btn{
+    display:inline-block;
+    padding:12px 26px;
+    border-radius:50px;
+    font-weight:600;
+    cursor:pointer;
+    border:none;
+    transition:all .3s;
+    font-family:inherit;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+    box-shadow:0 6px 18px rgba(214,40,40,.35);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(214,40,40,.45)}
+  .btn-outline{
+    background:transparent;color:var(--primary);
+    border:2px solid var(--primary);
+  }
+  .btn-outline:hover{background:var(--primary);color:#fff}
+  .menu-toggle{
+    display:none;background:none;border:none;cursor:pointer;
+    font-size:1.6rem;color:var(--dark);
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:140px 0 80px;
+    background:
+      radial-gradient(circle at 80% 20%,rgba(252,191,73,.3),transparent 50%),
+      radial-gradient(circle at 10% 80%,rgba(247,127,0,.2),transparent 50%),
+      var(--cream);
+    position:relative;overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;
+  }
+  .hero-badge{
+    display:inline-block;
+    background:rgba(214,40,40,.1);
+    color:var(--primary);
+    padding:8px 18px;border-radius:50px;
+    font-size:.85rem;font-weight:600;
+    margin-bottom:20px;
+  }
+  .hero h1{
+    font-size:clamp(2.2rem,4.5vw,3.6rem);
+    font-weight:800;line-height:1.15;
+    margin-bottom:20px;
+  }
+  .hero h1 .highlight{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p{
+    color:var(--gray);font-size:1.05rem;
+    margin-bottom:30px;max-width:500px;
+  }
+  .hero-cta{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:30px}
+  .hero-stats{display:flex;gap:35px;flex-wrap:wrap}
+  .stat strong{
+    display:block;font-size:1.8rem;color:var(--primary);font-weight:700;
+  }
+  .stat span{color:var(--gray);font-size:.9rem}
+  .hero-visual{
+    position:relative;display:flex;justify-content:center;align-items:center;
+    min-height:420px;
+  }
+  .hero-circle{
+    width:400px;height:400px;
+    background:linear-gradient(135deg,var(--accent),var(--secondary));
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14rem;
+    box-shadow:0 30px 60px rgba(247,127,0,.35);
+    animation:float 4s ease-in-out infinite;
+  }
+  .floating-tag{
+    position:absolute;background:#fff;padding:12px 18px;
+    border-radius:15px;box-shadow:var(--shadow);
+    font-weight:600;font-size:.9rem;
+    display:flex;align-items:center;gap:8px;
+  }
+  .tag-1{top:10%;left:5%;animation:float 3s ease-in-out infinite}
+  .tag-2{bottom:15%;right:5%;animation:float 3.5s ease-in-out infinite reverse}
+  .tag-3{top:50%;right:0;animation:float 4s ease-in-out infinite}
+  @keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-15px)}
+  }
+
+  /* ===== KEUNGGULAN ===== */
+  .features{background:#fff}
+  .feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:25px;
+  }
+  .feature-card{
+    background:var(--cream);
+    padding:35px 25px;border-radius:20px;
+    text-align:center;
+    transition:all .3s;
+    border:2px solid transparent;
+  }
+  .feature-card:hover{
+    transform:translateY(-8px);
+    border-color:var(--accent);
+    box-shadow:var(--shadow);
+  }
+  .feature-icon{
+    width:70px;height:70px;margin:0 auto 20px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    border-radius:20px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:2rem;color:#fff;
+  }
+  .feature-card h3{font-size:1.15rem;margin-bottom:10px}
+  .feature-card p{color:var(--gray);font-size:.95rem}
+
+  /* ===== PRODUK ===== */
+  .products{background:var(--cream)}
+  .product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+  }
+  .product-card{
+    background:#fff;border-radius:24px;overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,.05);
+    transition:all .3s;
+  }
+  .product-card:hover{transform:translateY(-10px);box-shadow:var(--shadow)}
+  .product-img{
+    height:200px;
+    background:linear-gradient(135deg,var(--accent),var(--secondary));
+    display:flex;align-items:center;justify-content:center;
+    font-size:6rem;
+    position:relative;
+  }
+  .product-badge{
+    position:absolute;top:15px;right:15px;
+    background:var(--primary);color:#fff;
+    padding:5px 12px;border-radius:50px;
+    font-size:.75rem;font-weight:600;
+  }
+  .product-info{padding:25px}
+  .product-info h3{font-size:1.25rem;margin-bottom:8px}
+  .product-info p{color:var(--gray);font-size:.9rem;margin-bottom:15px}
+  .product-bottom{
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .price{font-size:1.3rem;font-weight:700;color:var(--primary)}
+  .price small{font-size:.8rem;color:var(--gray);font-weight:400}
+  .btn-cart{
+    background:var(--dark);color:#fff;
+    width:42px;height:42px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:none;cursor:pointer;transition:all .3s;
+  }
+  .btn-cart:hover{background:var(--primary);transform:rotate(15deg)}
+
+  /* ===== TESTIMONI ===== */
+  .testimonials{background:#fff}
+  .testi-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+  }
+  .testi-card{
+    background:var(--cream);
+    padding:30px;border-radius:20px;
+    position:relative;
+    transition:all .3s;
+  }
+  .testi-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+  .testi-card::before{
+    content:'"';position:absolute;top:10px;right:25px;
+    font-size:5rem;color:var(--accent);font-family:serif;line-height:1;
+  }
+  .stars{color:var(--secondary);margin-bottom:12px;font-size:1.1rem}
+  .testi-text{color:var(--dark);margin-bottom:20px;font-style:italic}
+  .testi-user{display:flex;align-items:center;gap:12px}
+  .avatar{
+    width:50px;height:50px;border-radius:50%;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;
+  }
+  .testi-user h4{font-size:1rem}
+  .testi-user span{color:var(--gray);font-size:.85rem}
+
+  /* ===== KONTAK ===== */
+  .contact{
+    background:linear-gradient(135deg,var(--dark),#4a3426);
+    color:#fff;
+  }
+  .contact .section-title{color:#fff}
+  .contact .section-sub{color:rgba(255,255,255,.7)}
+  .contact-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:50px;
+  }
+  .contact-info h3{font-size:1.4rem;margin-bottom:20px}
+  .contact-item{
+    display:flex;align-items:flex-start;gap:15px;margin-bottom:20px;
+  }
+  .contact-icon{
+    width:45px;height:45px;border-radius:12px;
+    background:rgba(252,191,73,.15);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.3rem;flex-shrink:0;
+  }
+  .contact-item h4{font-size:1rem;margin-bottom:4px}
+  .contact-item p{color:rgba(255,255,255,.7);font-size:.9rem}
+  .contact-form{
+    background:rgba(255,255,255,.05);
+    padding:35px;border-radius:20px;
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.1);
+  }
+  .form-group{margin-bottom:18px}
+  .form-group label{
+    display:block;margin-bottom:6px;
+    font-size:.9rem;font-weight:500;
+  }
+  .form-group input,.form-group textarea{
+    width:100%;padding:12px 16px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:10px;color:#fff;
+    font-family:inherit;font-size:.95rem;
+    transition:all .3s;
+  }
+  .form-group input:focus,.form-group textarea:focus{
+    outline:none;border-color:var(--accent);
+    background:rgba(255,255,255,.12);
+  }
+  .form-group textarea{resize:vertical;min-height:100px}
+  .contact-form .btn-primary{width:100%}
+
+  /* ===== FOOTER ===== */
+  footer{
+    background:#1a110a;color:rgba(255,255,255,.7);
+    padding:50px 0 25px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:40px;margin-bottom:35px;
+  }
+  .footer-col h4{color:#fff;margin-bottom:18px;font-size:1rem}
+  .footer-col p{font-size:.9rem;margin-bottom:15px}
+  .footer-col ul li{margin-bottom:10px;font-size:.9rem}
+  .footer-col ul li a:hover{color:var(--accent)}
+  .socials{display:flex;gap:12px;margin-top:15px}
+  .socials a{
+    width:38px;height:38px;border-radius:50%;
+    background:rgba(255,255,255,.08);
+    display:flex;align-items:center;justify-content:center;
+    transition:all .3s;
+  }
+  .socials a:hover{background:var(--primary);transform:translateY(-3px)}
+  .footer-bottom{
+    text-align:center;padding-top:25px;
+    border-top:1px solid rgba(255,255,255,.1);
+    font-size:.85rem;
+  }
+  .footer-bottom span{color:var(--accent)}
+
+  /* ===== REVEAL ANIMATION ===== */
+  .reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}
+  .reveal.active{opacity:1;transform:translateY(0)}
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:900px){
+    .hero-grid,.contact-grid{grid-template-columns:1fr;gap:40px}
+    .hero-visual{min-height:350px}
+    .hero-circle{width:300px;height:300px;font-size:10rem}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:30px}
+  }
+  @media(max-width:640px){
+    section{padding:60px 0}
+    .nav-links{
+      position:fixed;top:70px;left:0;right:0;
+      background:#fff;flex-direction:column;
+      padding:25px;gap:20px;
+      transform:translateY(-150%);
+      transition:transform .3s;
+      box-shadow:0 10px 30px rgba(0,0,0,.1);
+    }
+    .nav-links.open{transform:translateY(0)}
+    .menu-toggle{display:block}
+    .footer-grid{grid-template-columns:1fr}
+    .hero{padding:110px 0 60px}
+    .hero-stats{gap:20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="container nav-wrap">
+    <a href="#" class="logo">
+      <span>Cireng</span><span>Nyoy</span> 🥟
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Beranda</a></li>
+      <li><a href="#features">Keunggulan</a></li>
+      <li><a href="#products">Produk</a></li>
+      <li><a href="#testimonials">Testimoni</a></li>
+      <li><a href="#contact">Kontak</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div class="hero-text reveal">
+      <span class="hero-badge">🔥 Best Seller 2026</span>
+      <h1>Cireng Isi <span class="highlight">Renyah di Luar, Lumer di Dalam</span></h1>
+      <p>Nikmati sensasi cireng asli Bandung dengan isian melimpah, bumbu rahasia turun-temurun, dan harga yang ramah di kantong. Sekali gigit, langsung ketagihan!</p>
+      <div class="hero-cta">
+        <a href="#products" class="btn btn-primary">Pesan Sekarang</a>
+        <a href="#features" class="btn btn-outline">Pelajari Lebih</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>10K+</strong><span>Pelanggan Puas</span></div>
+        <div class="stat"><strong>4.9★</strong><span>Rating</span></div>
+        <div class="stat"><strong>6</strong><span>Varian Rasa</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="hero-circle">🥟</div>
+      <div class="floating-tag tag-1">🌶️ Pedas Nampol</div>
+      <div class="floating-tag tag-2">🧀 Keju Lumer</div>
+      <div class="floating-tag tag-3">✅ 100% Halal</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KEUNGGULAN ===== -->
+<section class="features" id="features">
+  <div class="container">
+    <h2 class="section-title reveal">Kenapa Harus Cireng Nyoy?</h2>
+    <p class="section-sub reveal">Bukan cireng biasa! Kami hadirkan kualitas premium dengan cita rasa yang bikin nagih.</p>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">🔥</div>
+        <h3>Digoreng Fresh</h3>
+        <p>Setiap pesanan digoreng dadakan, dijamin renyah dan hangat saat sampai di tangan Anda.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🥩</div>
+        <h3>Isi Melimpah</h3>
+        <p>Isian ayam, keju, dan bumbu rahasia kami lebih banyak dibanding cireng pada umumnya.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🌿</div>
+        <h3>Bahan Segar</h3>
+        <p>Menggunakan tepung tapioka pilihan dan bahan berkualitas tanpa pengawet berbahaya.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">✅</div>
+        <h3>Halal & Higienis</h3>
+        <p>Tersertifikasi halal dan diolah di dapur bersih dengan standar kebersihan tinggi.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">💰</div>
+        <h3>Harga Terjangkau</h3>
+        <p>Mulai dari Rp 3.000 per pcs, cocok untuk jajanan harian, acara, atau oleh-oleh.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🚚</div>
+        <h3>Siap Delivery</h3>
+        <p>Tersedia layanan pesan antar ke seluruh kota. Bisa juga untuk pesanan partai besar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUK ===== -->
+<section class="products" id="products">
+  <div class="container">
+    <h2 class="section-title reveal">Pilihan Varian Favorit</h2>
+    <p class="section-sub reveal">Ada banyak rasa yang bisa kamu pilih. Semua enak, tinggal pilih favoritmu!</p>
+    <div class="product-grid">
+      <div class="product-card reveal">
+        <div class="product-img">
+          🍗
+          <span class="product-badge">Best Seller</span>
+        </div>
+        <div class="product-info">
+          <h3>Cireng Isi Ayam</h3>
+          <p>Isian ayam suwir bumbu pedas manis yang gurih dan bikin nagih.</p>
+          <div class="product-bottom">
+            <div class="price">Rp 4.000 <small>/pcs</small></div>
+            <button class="btn-cart" onclick="addToCart('Cireng Ayam')">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-img" style="background:linear-gradient(135deg,#ffd166,#f77f00)">
+          🧀
+          <span class="product-badge">New</span>
+        </div>
+        <div class="product-info">
+          <h3>Cireng Isi Keju</h3>
+          <p>Keju mozzarella lumer di dalam, sensasi creamy yang meleleh di mulut.</p>
+          <div class="product-bottom">
+            <div class="price">Rp 5.000 <small>/pcs</small></div>
+            <button class="btn-cart" onclick="addToCart('Cireng Keju')">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-img" style="background:linear-gradient(135deg,#ff6b6b,#d62828)">
+          🌶️
+        </div>
+        <div class="product-info">
+          <h3>Cireng Isi Pedas</h3>
+          <p>Level pedas bisa dipilih. Cocok untuk pecinta sensasi pedas yang nampol!</p>
+          <div class="product-bottom">
+            <div class="price">Rp 4.000 <small>/pcs</small></div>
+            <button class="btn-cart" onclick="addToCart('Cireng Pedas')">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-img" style="background:linear-gradient(135deg,#e0a96d,#8b5a2b)">
+          🥩
+        </div>
+        <div class="product-info">
+          <h3>Cireng Isi Bakso</h3>
+          <p>Paduan bakso sapi juicy dengan bumbu khas yang bikin ketagihan.</p>
+          <div class="product-bottom">
+            <div class="price">Rp 5.000 <small>/pcs</small></div>
+            <button class="btn-cart" onclick="addToCart('Cireng Bakso')">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONI ===== -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <h2 class="section-title reveal">Kata Mereka yang Sudah Coba</h2>
+    <p class="section-sub reveal">Ribuan pelanggan sudah membuktikan kelezatan Cireng Nyoy. Ini cerita mereka!</p>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Cireng terenak yang pernah saya coba! Isinya beneran banyak, kulitnya renyah, dan harganya bersahabat. Langganan tiap minggu sekarang."</p>
+        <div class="testi-user">
+          <div class="avatar">SA</div>
+          <div>
+            <h4>Siti Aminah</h4>
+            <span>Mahasiswa</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Varian keju lumer-nya juara banget! Anak-anak di rumah sampai rebutan. Packagingnya juga rapi, cocok buat oleh-oleh kantor."</p>
+        <div class="testi-user">
+          <div class="avatar">BP</div>
+          <div>
+            <h4>Budi Prasetyo</h4>
+            <span>Karyawan Swasta</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Saya pesan 100 pcs untuk acara arisan, semua tamu suka! Pelayanannya cepat dan ramah. Recommended banget pokoknya!"</p>
+        <div class="testi-user">
+          <div class="avatar">DR</div>
+          <div>
+            <h4>Dewi Rahayu</h4>
+            <span>Ibu Rumah Tangga</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KONTAK ===== -->
+<section class="contact" id="contact">
+  <div class="container">
+    <h2 class="section-title reveal">Pesan & Hubungi Kami</h2>
+    <p class="section-sub reveal">Ada pertanyaan atau mau pesan dalam jumlah besar? Langsung hubungi kami ya!</p>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>Informasi Kontak</h3>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Alamat</h4>
+            <p>Jl. Cibadak No. 123, Bandung, Jawa Barat 40132</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div>
+            <h4>WhatsApp</h4>
+            <p>+62 812-3456-7890</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <p>halo@cirengnyoy.id</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕒</div>
+          <div>
+            <h4>Jam Operasional</h4>
+            <p>Senin - Minggu: 09.00 - 21.00 WIB</p>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form reveal" id="contactForm">
+        <div class="form-group">
+          <label for="name">Nama Lengkap</label>
+          <input type="text" id="name" required placeholder="Masukkan nama Anda"/>
+        </div>
+        <div class="form-group">
+          <label for="phone">No. WhatsApp</label>
+          <input type="tel" id="phone" required placeholder="08xxxxxxxxxx"/>
+        </div>
+        <div class="form-group">
+          <label for="message">Pesan / Pesanan</label>
+          <textarea id="message" required placeholder="Tulis pesanan atau pertanyaan Anda..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="font-size:1.4rem">🥟 Cireng Nyoy</h4>
+        <p>Cireng isi premium asli Bandung dengan cita rasa autentik dan bahan berkualitas. Sekali gigit, langsung nyoy!</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="TikTok">🎵</a>
+          <a href="#" aria-label="Facebook">📘</a>
+          <a href="#" aria-label="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Menu</h4>
+        <ul>
+          <li><a href="#home">Beranda</a></li>
+          <li><a href="#features">Keunggulan</a></li>
+          <li><a href="#products">Produk</a></li>
+          <li><a href="#testimonials">Testimoni</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Varian</h4>
+        <ul>
+          <li><a href="#">Cireng Ayam</a></li>
+          <li><a href="#">Cireng Keju</a></li>
+          <li><a href="#">Cireng Pedas</a></li>
+          <li><a href="#">Cireng Bakso</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Bantuan</h4>
+        <ul>
+          <li><a href="#">Cara Pesan</a></li>
+          <li><a href="#">Pengiriman</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#contact">Kontak Kami</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 <span>Cireng Nyoy</span>. All Rights Reserved. Made with ❤️ in Bandung.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ===== Navbar scroll effect =====
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // ===== Mobile menu toggle =====
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    menuToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  // Close menu when link clicked
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuToggle.textContent = '☰';
+    });
+  });
+
+  // ===== Scroll Reveal Animation =====
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ===== Add to cart (demo) =====
+  function addToCart(product) {
+    alert(`✅ ${product} ditambahkan ke keranjang!\n\nSilakan lanjutkan pemesanan via WhatsApp kami.`);
+  }
+
+  // ===== Contact form =====
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const msg = document.getElementById('message').value;
+    alert(`Terima kasih ${name}! 🙏\nPesan Anda sudah kami terima. Tim kami akan menghubungi ${phone} segera.`);
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
